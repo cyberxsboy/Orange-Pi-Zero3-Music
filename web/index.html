@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OPI 智能语音音乐播放器</title>
+  <link rel="stylesheet" href="/static/css/app.css" />
+  <link rel="icon" type="image/svg+xml" href="/static/img/logo.svg" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="/static/img/logo.svg" alt="logo" class="logo" />
+      <h1>OPI 语音音乐播放器</h1>
+    </div>
+    <div class="status" id="status">
+      <span class="state" id="state">--</span>
+      <span class="now" id="now">无播放</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>播放控制</h2>
+      <div class="player-row">
+        <button id="btn-pause" class="btn">⏸ 暂停</button>
+        <button id="btn-resume" class="btn">▶ 继续</button>
+        <button id="btn-stop" class="btn">⏹ 停止</button>
+        <button id="btn-next" class="btn">⏭ 下一首</button>
+        <button id="btn-prev" class="btn">⏮ 上一首</button>
+      </div>
+      <div class="volume-row">
+        <label>音量</label>
+        <input type="range" id="volume" min="0" max="100" value="80" />
+        <span id="volume-value">80</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>音乐源</h2>
+        <button id="btn-new" class="btn primary">+ 新增音乐源</button>
+      </div>
+      <div id="source-list" class="source-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>系统日志 <small>（最近 200 行）</small></h2>
+      <pre id="logs" class="logs"></pre>
+    </section>
+  </main>
+
+  <!-- 新增 / 编辑 弹窗 -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-box">
+      <header>
+        <h3 id="modal-title">新增音乐源</h3>
+        <button class="close" id="modal-close">×</button>
+      </header>
+      <form id="source-form">
+        <input type="hidden" id="f-id" />
+        <label>名称
+          <input type="text" id="f-name" required maxlength="64" />
+        </label>
+        <label>类型
+          <select id="f-type">
+            <option value="local">本地目录</option>
+            <option value="stream">网络流</option>
+            <option value="playlist">播放列表 (M3U/PLS)</option>
+          </select>
+        </label>
+        <label id="f-target-label">路径 / URL
+          <input type="text" id="f-target" required />
+        </label>
+        <label>语音关键字（逗号分隔）
+          <input type="text" id="f-keywords" required placeholder="如：流行,轻音乐" />
+        </label>
+        <label>说明
+          <input type="text" id="f-description" maxlength="256" />
+        </label>
+        <div class="row">
+          <label class="check"><input type="checkbox" id="f-enabled" checked /> 启用</label>
+          <label class="check"><input type="checkbox" id="f-recursive" checked /> 递归子目录</label>
+          <label class="check"><input type="checkbox" id="f-shuffle" /> 随机播放</label>
+        </div>
+        <label>格式过滤（逗号分隔）
+          <input type="text" id="f-format" value="mp3,wav,flac,m4a,ogg" />
+        </label>
+        <footer>
+          <button type="button" class="btn" id="btn-cancel">取消</button>
+          <button type="submit" class="btn primary">保存</button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

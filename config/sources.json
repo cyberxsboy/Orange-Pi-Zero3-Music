@@ -1,0 +1,61 @@
+{
+  "_comment": "音乐源列表。Web UI 可视化编辑；也可直接修改本文件（重启或热加载生效）",
+  "_schema": {
+    "id": "8位 base32 短ID（自动生成）",
+    "name": "显示名（≤64 字符）",
+    "type": "local | stream | playlist | online",
+    "target": "local: 目录绝对路径 / stream: HTTP(S) URL / playlist: m3u或pls 路径或URL / online: GD音乐台 API URL",
+    "keywords": ["用于语音匹配的关键字数组，至少1个"],
+    "description": "可选说明",
+    "enabled": true,
+    "recursive": true,
+    "format_filter": ["mp3", "wav", "flac", "m4a", "ogg"],
+    "shuffle": false,
+    "created_at": "ISO8601 时间戳",
+    "updated_at": "ISO8601 时间戳"
+  },
+  "sources": [
+    {
+      "id": "GDSTUDIO01",
+      "name": "网易云热歌榜",
+      "type": "online",
+      "target": "https://music-api.gdstudio.xyz/api.php?types=playlist&source=netease&id=3778678",
+      "keywords": ["热歌", "流行", "热门", "排行榜", "热歌榜"],
+      "description": "GD音乐台提供的免费网易云热歌榜，源自AlgerMusicPlayer默认音乐源",
+      "enabled": true,
+      "recursive": true,
+      "format_filter": ["mp3"],
+      "shuffle": true,
+      "created_at": "2026-07-31T00:00:00+08:00",
+      "updated_at": "2026-07-31T00:00:00+08:00"
+    },
+    {
+      "id": "GDSTUDIO02",
+      "name": "华语经典老歌",
+      "type": "online",
+      "target": "https://music-api.gdstudio.xyz/api.php?types=playlist&source=netease&id=4338502",
+      "keywords": ["经典", "老歌", "怀旧", "华语"],
+      "description": "GD音乐台-华语经典老歌歌单",
+      "enabled": true,
+      "recursive": true,
+      "format_filter": ["mp3"],
+      "shuffle": true,
+      "created_at": "2026-07-31T00:00:00+08:00",
+      "updated_at": "2026-07-31T00:00:00+08:00"
+    },
+    {
+      "id": "DEMO0001",
+      "name": "示例-流行轻音乐",
+      "type": "local",
+      "target": "/mnt/usb/music/pop",
+      "keywords": ["流行", "轻音乐", "pop"],
+      "description": "请将本地音乐目录路径替换为实际路径",
+      "enabled": true,
+      "recursive": true,
+      "format_filter": ["mp3", "flac"],
+      "shuffle": true,
+      "created_at": "2026-07-31T00:00:00+08:00",
+      "updated_at": "2026-07-31T00:00:00+08:00"
+    }
+  ]
+}

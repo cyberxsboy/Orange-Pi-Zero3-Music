@@ -1,0 +1,95 @@
+{
+  "_comment": "Orange Pi Zero3 智能语音音乐播放器 - 全局配置",
+  "_memory_profiles": {
+    "1g": "1GB内存优化：关闭 openWakeWord，使用 Vosk grammar 关键词唤醒；piper 用 x_low 量化；关闭模糊匹配与 inotify",
+    "2g": "默认：开启 openWakeWord + Vosk grammar 双引擎可切换",
+    "4g": "全功能：可开启模糊匹配 (rapidfuzz) 与 inotify"
+  },
+
+  "memory_profile": "1g",
+
+  "web": {
+    "host": "0.0.0.0",
+    "port": 8080,
+    "_comment": "绑定 0.0.0.0 仅用于局域网；如需公网访问请配合防火墙或反代并启用 BasicAuth"
+  },
+
+  "audio": {
+    "input_device": null,
+    "output_device": null,
+    "input_mode": "auto",
+    "output_mode": "auto",
+    "_comment_input_modes": {
+      "auto": "自动选择: USB 麦克风优先, 其次 13Pin 板载 MIC (需焊 13Pin 排针 + 模拟麦)",
+      "usb":  "强制使用 USB 麦克风 (适合 USB 摄像头麦头/USB 麦棒)",
+      "onboard": "使用 13Pin 板载麦克风输入 (官方规格 2 出 1 入, H618 codec 内置 ADC)",
+      "hw:0,0": "直接指定 ALSA 设备, 同 output_device"
+    },
+    "_comment_output_modes": {
+      "auto":   "自动选择: 13Pin 板载耳机口 > USB 声卡 > HDMI (推荐, 不用额外硬件)",
+      "onboard": "强制使用 13Pin 板载 3.5mm 耳机口 (需焊 13Pin 排针/扩展板)",
+      "usb":   "强制使用 USB 声卡/USB 音箱 (适合 13Pin 排针未焊的场景)",
+      "hdmi":  "使用 HDMI 音频输出 (注意: 与 HDMI 视频同口, 占资源)",
+      "hw:X,Y": "直接指定 ALSA 设备 (如 hw:1,0)"
+    },
+    "_comment_device_format": "为 null 或 'auto' 时由 audio mode 决定; 填具体值 (如 'hw:1,0') 优先于 mode",
+    "_comment_hardware_note": "Orange Pi Zero3 官方参数: USB 2.0 × 3 (1×USB-A + 2×13Pin 焊盘); 13Pin 支持 2 路音频输出(L/R) + 1 路音频输入(MIC) + TV-Out + IR + GPIO. 物理 USB-A 仅 1 个, 推荐 13Pin 全套方案 (麦+喇叭+2 USB 焊盘/U 盘).",
+    "sample_rate": 16000,
+    "channels": 1,
+    "input_blocksize": 4000
+  },
+
+  "voice": {
+    "enabled": true,
+    "wake_backend": "openwakeword",
+    "_wake_backends": {
+      "openwakeword": "需要 data/wakeword_models/ 下的训练模型；识别率高",
+      "vosk_grammar": "使用 Vosk 关键词 grammar；零配置，1GB 模式默认",
+      "none": "禁用唤醒词，仅靠按按钮触发"
+    },
+    "wake_keywords": ["你好小音", "嗨同学"],
+    "wake_threshold": 0.5,
+    "stt_model_path": "data/stt_models/vosk-cn-small",
+    "stt_hotwords": "流行,轻音乐,电台,民谣,古典,儿歌,摇滚,爵士,白噪音,睡眠,起床",
+    "command_timeout_s": 5.0,
+    "silence_stop_s": 0.7
+  },
+
+  "tts": {
+    "backend": "piper",
+    "_backends": {
+      "piper": "本地神经网络 TTS，推荐 x_low 量化",
+      "edge": "edge-tts 在线（微软），音质好但需联网",
+      "espeak": "espeak-ng 本地兜底，机械感但极轻量"
+    },
+    "piper_model": "data/tts_models/zh_CN-huayan-x_low.onnx",
+    "piper_config": "data/tts_models/zh_CN-huayan-x_low.onnx.json",
+    "volume": 1.0
+  },
+
+  "player": {
+    "backend": "auto",
+    "_backends": {
+      "auto": "mp3 优先 mpg123，flac/m4a 自动切 cvlc",
+      "mpg123": "强制 mpg123（仅 mp3/电台流）",
+      "vlc": "强制 cvlc（格式全，CPU 略高）"
+    },
+    "volume": 80,
+    "fade_ms": 200
+  },
+
+  "features": {
+    "enable_wakeword": true,
+    "enable_fuzzy_match": false,
+    "enable_inotify": false,
+    "enable_tts_during_play": true
+  },
+
+  "paths": {
+    "config_dir": "config",
+    "data_dir": "data",
+    "log_dir": "logs",
+    "sources_file": "config/sources.json",
+    "state_file": "data/state.json"
+  }
+}

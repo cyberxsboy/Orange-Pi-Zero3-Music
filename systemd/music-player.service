@@ -1,0 +1,46 @@
+[Unit]
+Description=OPI Zero3 Smart Voice Music Player
+After=network-online.target sound.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+NotifyAccess=main
+User=music
+Group=music
+SupplementaryGroups=audio pulse
+WorkingDirectory=/opt/music-player
+Environment="PYTHONUNBUFFERED=1"
+Environment="MUSIC_PLAYER_CONFIG=/opt/music-player/config/config.json"
+ExecStart=/opt/music-player/venv/bin/python -m app.main
+ExecStop=/bin/kill -SIGTERM $MAINPID
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+
+# Watchdog
+WatchdogSec=30
+
+# 安全沙箱
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=false
+ReadWritePaths=/opt/music-player/data /opt/music-player/logs /opt/music-player/config
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+MemoryDenyWriteExecute=false
+SystemCallArchitectures=native
+
+# 资源限制
+MemoryMax=400M
+TasksMax=64
+CPUQuota=80%
+
+[Install]
+WantedBy=multi-user.target

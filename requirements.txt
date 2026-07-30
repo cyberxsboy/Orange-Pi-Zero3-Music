@@ -1,0 +1,29 @@
+# Orange Pi Zero3 智能语音音乐播放器 — Python 依赖
+# 注意：1GB 内存模式只使用其中部分包
+
+# ───── 语音 ─────
+vosk==0.3.45
+sounddevice==0.4.7
+numpy==1.26.4
+pypinyin==0.51.0
+
+# ───── 唤醒词（双引擎，可选） ─────
+openwakeword==0.6.0
+
+# ───── TTS（piper） ─────
+onnxruntime==1.17.1
+piper-tts==1.3.0
+
+# ───── Web ─────
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+python-multipart==0.0.9
+pydantic==2.7.4
+aiofiles==23.2.1
+
+# ───── 文件监听 / 工具 ─────
+watchfiles==0.21.0
+psutil==5.9.8
+
+# ───── 可选：模糊匹配（4G 模式开启） ─────
+# rapidfuzz==3.9.4
